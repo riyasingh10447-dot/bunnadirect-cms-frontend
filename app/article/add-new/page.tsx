@@ -1,4 +1,225 @@
- "use client";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import DashboardLayout from "../../components/DashboardLayout";
+import useAuth from "../../hooks/useAuth";
+
+interface UserInfo {
+  email: string;
+  role: "admin" | "editor";
+}
+
+export default function AddArticlePage() {
+  const { loading, authorized } = useAuth(["admin", "editor"]);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [title, setTitle] = useState("");
+  const [metaKeyword, setMetaKeyword] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [body, setBody] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [category, setCategory] = useState("TRENDS_FASHION");
+  const [contentType, setContentType] = useState("ARTICLE");
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+
+  // ✅ Fetch user info (for role)
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/check`, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          router.push("/user-login");
+          return;
+        }
+        const data = await res.json();
+        setUserInfo(data);
+      } catch (err) {
+        console.error(err);
+        router.push("/user-login");
+      }
+    };
+
+    if (!loading && authorized) fetchUser();
+  }, [loading, authorized, router]);
+
+  // ✅ Handle form submit
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage("");
+
+    try {
+      let imageUrl = "";
+
+      if (image) {
+        const formData = new FormData();
+        formData.append("file", image);
+
+        const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        });
+
+        const uploadData = await uploadRes.json();
+        imageUrl = uploadData.url;
+      }
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/article`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          title,
+          metaKeyword,
+          metaDescription,
+          body,
+          imageUrl,
+          category,
+          contentType,
+        }),
+      });
+
+      if (res.ok) {
+        const article = await res.json();
+        setMessage(`✅ Article created! View it at /blog/${article.slug}`);
+        setTitle("");
+        setMetaKeyword("");
+        setMetaDescription("");
+        setBody("");
+        setImage(null);
+      } else {
+        const error = await res.json();
+        setMessage(`❌ ${error.message || "Failed to create article"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("❌ Something went wrong.");
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (!authorized) return null;
+  if (!userInfo) return <p>Fetching user info...</p>;
+
+  return (
+    <DashboardLayout role={userInfo.role}>
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow border border-gray-100">
+        <h1 className="text-2xl font-semibold text-[#0A0528] mb-6">
+          Add New Article
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block font-semibold mb-1">Select Category</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border p-2 rounded"
+            >
+              <option value="TRENDS_FASHION">Trends & Fashion</option>
+              <option value="TYPES_JEWELLERY">Types of Jewellery</option>
+              <option value="OCCASIONS_EVENTS">Occasions & Events</option>
+              <option value="BUYING_GUIDES_REVIEWS">
+                Buying Guides & Reviews
+              </option>
+              <option value="HISTORY_CULTURE">History & Culture</option>
+              <option value="CARE_MAINTENANCE">Care & Maintenance</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Select Content Type</label>
+            <select
+              value={contentType}
+              onChange={(e) => setContentType(e.target.value)}
+              className="w-full border p-2 rounded"
+            >
+              <option value="ARTICLE">Article</option>
+              <option value="NEWS">News</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full border p-2 rounded"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Meta Keyword</label>
+            <input
+              type="text"
+              value={metaKeyword}
+              onChange={(e) => setMetaKeyword(e.target.value)}
+              className="w-full border p-2 rounded"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Meta Description</label>
+            <textarea
+              value={metaDescription}
+              onChange={(e) => setMetaDescription(e.target.value)}
+              className="w-full border p-2 rounded h-20"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Body</label>
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              required
+              className="w-full border p-2 rounded h-40"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">
+              Choose File for Image
+            </label>
+            <input
+              type="file"
+              onChange={(e) =>
+                e.target.files ? setImage(e.target.files[0]) : null
+              }
+              className="w-full"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-[#0A0528] text-white px-4 py-2 rounded hover:bg-[#B88D3B] transition"
+          >
+            Add Article
+          </button>
+        </form>
+
+        {message && (
+          <p
+            className={`mt-4 ${
+              message.startsWith("✅") ? "text-green-600" : "text-red-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+      </div>
+    </DashboardLayout>
+  );
+}
+
+
+ 
+ {/*"use client";
 
 import { useState } from "react";
 
@@ -167,3 +388,4 @@ export default function AdminPage() {
     </div>
   );
 }
+*/}

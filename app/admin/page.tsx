@@ -1,5 +1,175 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useAuth from "../hooks/useAuth";
+import DashboardLayout from "../components/DashboardLayout";
+
+export default function AdminDashboard() {
+  const { loading, authorized } = useAuth(["admin"]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !authorized) router.push("/admin-login");
+  }, [loading, authorized, router]);
+
+  if (loading) return <p className="p-6">Loading...</p>;
+
+  return (
+    <DashboardLayout role="admin">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-gray-800">Welcome, Admin</h1>
+          <div className="text-sm text-gray-500">Overview & quick actions</div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Manage Articles */}
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">Manage Articles</h3>
+            <p className="mt-2 text-sm text-gray-600">Create, update, and organize articles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/article")}
+                className="inline-flex items-center gap-2 bg-[#1E2A3A] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                Go to Articles
+              </button>
+            </div>
+          </div>
+
+          {/* Manage Users */}
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">Manage Users</h3>
+            <p className="mt-2 text-sm text-gray-600">Add or edit CMS users and roles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/admin/add-user")}
+                className="inline-flex items-center gap-2 bg-[#0F8A5F] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                Add User
+              </button>
+            </div>
+          </div>
+
+          {/* List Users */}
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">List Users</h3>
+            <p className="mt-2 text-sm text-gray-600">See registered users and roles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/admin/users")}
+                className="inline-flex items-center gap-2 bg-[#6B46C1] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                View Users
+              </button>
+            </div>
+          </div>
+
+          {/* My Account */}
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">My Account</h3>
+            <p className="mt-2 text-sm text-gray-600">View and update your account details.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/account")}
+                className="inline-flex items-center gap-2 bg-[#4C51BF] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                My Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}
+{/*"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useAuth from "../hooks/useAuth";
+import DashboardLayout from "../components/DashboardLayout";
+
+export default function AdminDashboard() {
+  const { loading, authorized } = useAuth(["admin"]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !authorized) router.push("/admin-login");
+  }, [loading, authorized, router]);
+
+  if (loading) return <p className="p-6">Loading...</p>;
+
+  return (
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-gray-800">Welcome, Admin</h1>
+          <div className="text-sm text-gray-500">Overview & quick actions</div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">Manage Articles</h3>
+            <p className="mt-2 text-sm text-gray-600">Create, update and organize articles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/article")}
+                className="inline-flex items-center gap-2 bg-[#1E2A3A] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                Go to Articles
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">Manage Users</h3>
+            <p className="mt-2 text-sm text-gray-600">Add or edit CMS users and roles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/admin/add-user")}
+                className="inline-flex items-center gap-2 bg-[#0F8A5F] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                Add User
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">List Users</h3>
+            <p className="mt-2 text-sm text-gray-600">See registered users and roles.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/admin/users")}
+                className="inline-flex items-center gap-2 bg-[#6B46C1] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                View Users
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-800">My Account</h3>
+            <p className="mt-2 text-sm text-gray-600">View and update your account details.</p>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/account")}
+                className="inline-flex items-center gap-2 bg-[#4C51BF] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+              >
+                My Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}
+*/}
+
+{/*"use client"--og;
+
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -15,11 +185,28 @@ export default function AdminDashboard() {
   }, [loading, authorized, router]);
 
   if (loading) return <p>Loading...</p>;
+const handleLogout = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
+        
       <div className="grid gap-6 md:grid-cols-2">
         <div className="p-6 border rounded shadow hover:shadow-lg">
           <h2 className="text-xl font-semibold mb-2">Manage Articles</h2>
@@ -43,7 +230,7 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* List Users */}
+        
         <div className="p-6 border rounded shadow hover:shadow-lg">
           <h2 className="text-xl font-semibold mb-2">List Users</h2>
           <p>View all registered users with their roles.</p>
@@ -55,7 +242,7 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* My Account */}
+        
         <div className="p-6 border rounded shadow hover:shadow-lg">
           <h2 className="text-xl font-semibold mb-2">My Account</h2>
           <p>View your account information.</p>
@@ -66,12 +253,24 @@ export default function AdminDashboard() {
             My Account
           </button>
         </div>
+
+    
       </div>
+
+     
+    <div className="flex justify-end mt-6">
+      <button
+        onClick={handleLogout}
+        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+      >
+        Logout
+      </button>
+    </div>
     </div>
   );
 }
 
-
+*/}
 {/*
 "use client";
 

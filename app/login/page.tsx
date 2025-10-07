@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("admin"); // default
+  const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState("admin");
   const [error, setError] = useState("");
+  const [mustChangePassword, setMustChangePassword] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -15,17 +18,24 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // important for cookies
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
       if (res.ok) {
-        if (role === "admin") {
+        setMustChangePassword(data.mustChangePassword || false);
+
+        if (data.mustChangePassword) {
+          router.push("/change-password");
+        } else if (role === "admin") {
           router.push("/admin");
         } else if (role === "editor") {
           router.push("/user");
@@ -40,55 +50,102 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-[#0A0528] px-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold text-[#0A0528]">
+            JohriWorksCMS
+          </h1>
+        </div>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 text-red-600 bg-red-100 px-3 py-2 rounded-md text-sm text-center">
+            {error}
+          </div>
+        )}
 
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block font-semibold">Select Role</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="w-full border p-2 rounded"
+        {/* Form */}
+        <form onSubmit={handleLogin} className="space-y-6">
+          {/* Role */}
+          <div>
+            <label className="block text-sm font-medium text-[#0A0528] mb-1">
+              Role
+            </label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528]"
+            >
+              <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
+            </select>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-[#0A0528] mb-1">
+              Email address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 inset-y-0 my-auto text-gray-400 pointer-events-none" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="you@example.com"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-sm font-medium text-[#0A0528] mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 inset-y-0 my-auto text-gray-400 pointer-events-none" />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="********"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#B88D3B]"
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
+          </div>
+
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="w-full py-2.5 rounded-md bg-[#0A0528] hover:bg-[#B88D3B] text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
-            <option value="admin">Admin</option>
-            <option value="editor">Editor</option>
-          </select>
-        </div>
+            Sign in
+          </button>
+        </form>
 
-        <div>
-          <label className="block font-semibold">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full border p-2 rounded"
-          />
+        {/* Forgot Password */}
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            className="text-sm text-[#0A0528] hover:text-[#B88D3B] hover:underline transition"
+            onClick={() => router.push("/forgot-password")}
+          >
+            Forgot password?
+          </button>
         </div>
-
-        <div>
-          <label className="block font-semibold">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className={`w-full py-2 rounded ${
-            role === "admin" ? "bg-blue-600 hover:bg-blue-700" : "bg-green-600 hover:bg-green-700"
-          } text-white`}
-        >
-          Login as {role.charAt(0).toUpperCase() + role.slice(1)}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
