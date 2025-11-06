@@ -2,8 +2,40 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic"; // ✅ MISSING IMPORT added here
 import DashboardLayout from "../../components/DashboardLayout";
 import useAuth from "../../hooks/useAuth";
+import "react-quill-new/dist/quill.snow.css";
+
+// ✅ Dynamically import ReactQuill (no SSR)
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
+// ✅ Quill toolbar configuration
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ align: [] }],
+    ["link", "image", "blockquote", "code-block"],
+    ["clean"],
+  ],
+};
+
+const quillFormats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "align",
+  "link",
+  "image",
+  "blockquote",
+  "code-block",
+];
 
 interface UserInfo {
   email: string;
@@ -23,7 +55,7 @@ export default function AddArticlePage() {
   const [message, setMessage] = useState("");
   const router = useRouter();
 
-  // ✅ Fetch user info (for role)
+  // ✅ Fetch user info
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -112,6 +144,7 @@ export default function AddArticlePage() {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Category */}
           <div>
             <label className="block font-semibold mb-1">Select Category</label>
             <select
@@ -122,14 +155,13 @@ export default function AddArticlePage() {
               <option value="TRENDS_FASHION">Trends & Fashion</option>
               <option value="TYPES_JEWELLERY">Types of Jewellery</option>
               <option value="OCCASIONS_EVENTS">Occasions & Events</option>
-              <option value="BUYING_GUIDES_REVIEWS">
-                Buying Guides & Reviews
-              </option>
+              <option value="BUYING_GUIDES_REVIEWS">Buying Guides & Reviews</option>
               <option value="HISTORY_CULTURE">History & Culture</option>
               <option value="CARE_MAINTENANCE">Care & Maintenance</option>
             </select>
           </div>
 
+          {/* Content Type */}
           <div>
             <label className="block font-semibold mb-1">Select Content Type</label>
             <select
@@ -142,6 +174,7 @@ export default function AddArticlePage() {
             </select>
           </div>
 
+          {/* Title */}
           <div>
             <label className="block font-semibold mb-1">Title</label>
             <input
@@ -153,6 +186,7 @@ export default function AddArticlePage() {
             />
           </div>
 
+          {/* Meta Keyword */}
           <div>
             <label className="block font-semibold mb-1">Meta Keyword</label>
             <input
@@ -163,6 +197,7 @@ export default function AddArticlePage() {
             />
           </div>
 
+          {/* Meta Description */}
           <div>
             <label className="block font-semibold mb-1">Meta Description</label>
             <textarea
@@ -172,20 +207,23 @@ export default function AddArticlePage() {
             />
           </div>
 
+          {/* ✅ Rich Text Editor */}
           <div>
             <label className="block font-semibold mb-1">Body</label>
-            <textarea
+            <ReactQuill
+              theme="snow"
               value={body}
-              onChange={(e) => setBody(e.target.value)}
-              required
-              className="w-full border p-2 rounded h-40"
+              onChange={setBody}
+              modules={quillModules}
+              formats={quillFormats}
+              className="bg-white h-60 mb-12"
+              placeholder="Write your article here..."
             />
           </div>
 
+          {/* Image Upload */}
           <div>
-            <label className="block font-semibold mb-1">
-              Choose File for Image
-            </label>
+            <label className="block font-semibold mb-1">Choose File for Image</label>
             <input
               type="file"
               onChange={(e) =>
@@ -195,6 +233,7 @@ export default function AddArticlePage() {
             />
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
             className="bg-[#0A0528] text-white px-4 py-2 rounded hover:bg-[#B88D3B] transition"
