@@ -208,7 +208,7 @@ export default function AddArticlePage() {
             />
           </div>
 
-          {/* ✅ Rich Text Editor */}
+          
           <div>
             <label className="block font-semibold mb-1">Body</label>
             <ReactQuill
@@ -222,6 +222,39 @@ export default function AddArticlePage() {
             />
           </div>
 
+ {/* ✅ old
+          <div>
+ 
+            <label className="block font-semibold mb-1">Body</label>
+     
+            <textarea
+ 
+              value={body}
+ 
+             
+              onChange={(e) => setBody(e.target.value)}
+            
+              required
+              
+               
+              className="w-full border p-2 rounded h-40"
+            
+            />
+        
+          </div>
+*/}
+          {/* Image Upload 
+          <div>
+            <label className="block font-semibold mb-1">Choose File for Image</label>
+            <input
+              type="file"
+              onChange={(e) =>
+                e.target.files ? setImage(e.target.files[0]) : null
+              }
+              className="w-full"
+            />
+          </div>
+*/}
           <div className="mb-4">
   <label className="block font-semibold mb-1">Upload Image</label>
 
@@ -249,6 +282,7 @@ export default function AddArticlePage() {
     }
   />
 </div>
+
 
           {/* Submit */}
           <button
@@ -445,3 +479,4 @@ export default function AdminPage() {
   );
 }
 */}
+
