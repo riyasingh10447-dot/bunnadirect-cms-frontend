@@ -1,3 +1,4 @@
+"use client";
 import ArticleForm from "@/components/ArticleForm";
 
 async function submitArticle(data: { title: string; body: string }) {
