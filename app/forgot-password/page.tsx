@@ -39,11 +39,11 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0A0528] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#6b8e23] px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-[#0A0528]">
+          <h1 className="text-2xl font-semibold text-[#3d2b1f]">
             Forgot Password
           </h1>
           <p className="text-sm text-gray-600 mt-2">
@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2.5 rounded-md bg-[#0A0528] hover:bg-[#B88D3B] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             Send Reset Link
           </button>
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="text-sm text-[#0A0528] hover:text-[#B88D3B] hover:underline transition"
+            className="text-sm text-[#3d2b1f] hover:text-[#6b8e23] hover:underline transition"
           >
             Back to Sign In
           </button>

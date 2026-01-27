@@ -158,6 +158,7 @@ export default function EditArticlePage() {
               className="w-full border p-2 rounded"
             />
           </div>
+          
 
           <div>
             <label className="block font-semibold">Body</label>
@@ -187,14 +188,13 @@ export default function EditArticlePage() {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full border p-2 rounded"
             >
-              <option value="TRENDS_FASHION">Trends & Fashion</option>
-              <option value="TYPES_JEWELLERY">Types of Jewellery</option>
-              <option value="OCCASIONS_EVENTS">Occasions & Events</option>
-              <option value="BUYING_GUIDES_REVIEWS">
-                Buying Guides & Reviews
-              </option>
-              <option value="HISTORY_CULTURE">History & Culture</option>
-              <option value="CARE_MAINTENANCE">Care & Maintenance</option>
+              <option value="GREEN_COFFEE_BENEFITS">Green Coffee Benefits</option>
+<option value="GREEN_COFFEE_TYPES">Types of Green Coffee Beans</option>
+<option value="GREEN_COFFEE_USAGE">How to Use Green Coffee</option>
+<option value="GREEN_COFFEE_WEIGHTLOSS">Green Coffee for Weight Loss</option>
+<option value="GREEN_COFFEE_HEALTH">Green Coffee for Health</option>
+<option value="GREEN_COFFEE_STORAGE">Green Coffee Storage & Care</option>
+
             </select>
           </div>
 
@@ -212,7 +212,7 @@ export default function EditArticlePage() {
 
           <button
             type="submit"
-            className="bg-[#0A0528] text-white px-4 py-2 rounded hover:bg-[#B88D3B] transition"
+            className="bg-[#3d2b1f] text-white px-4 py-2 rounded hover:bg-[#6b8e23] transition"
           >
             Update Article
           </button>

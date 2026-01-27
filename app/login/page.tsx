@@ -75,10 +75,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0A0528] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#6b8e23] px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-[#0A0528]">JohriWorksCMS</h1>
+          <h1 className="text-2xl font-semibold text-[#0A0528]">bunnaDirectCMS</h1>
         </div>
 
         {/* Error Message */}
@@ -114,7 +114,7 @@ export default function LoginPage() {
                 }}
                 required
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
                 autoComplete="username"
               />
             </div>
@@ -136,13 +136,13 @@ export default function LoginPage() {
                 }}
                 required
                 placeholder="********"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-[#B88D3B] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
                 autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#B88D3B]"
+                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#6b8e23]"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff /> : <Eye />}
@@ -154,7 +154,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-md bg-[#0A0528] hover:bg-[#B88D3B] disabled:opacity-60 text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] disabled:opacity-60 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
@@ -163,7 +163,7 @@ export default function LoginPage() {
         <div className="mt-4 text-center">
           <button
             type="button"
-            className="text-sm text-[#0A0528] hover:text-[#B88D3B] hover:underline transition"
+            className="text-sm text-[#3d2b1f] hover:text-[#6b8e23] hover:underline transition"
             onClick={() => router.push("/forgot-password")}
           >
             Forgot password?

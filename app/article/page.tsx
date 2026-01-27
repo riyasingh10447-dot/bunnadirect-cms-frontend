@@ -71,7 +71,7 @@ export default function ArticlesPage() {
           {/* Only show Add Article button to Admin */}
           {["admin", "editor"].includes(userInfo.role) && (
   <button
-    className="bg-[#0A0528] text-white px-4 py-2 rounded hover:bg-[#B88D3B] transition"
+    className="bg-[#3d2b1f] text-white px-4 py-2 rounded hover:bg-[#6b8e23] transition"
     onClick={() => router.push("/article/add-new")}
   >
     Add New Article

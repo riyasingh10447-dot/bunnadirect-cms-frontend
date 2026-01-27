@@ -58,10 +58,10 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-[#F5F8FB]">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#0A0528] text-white flex flex-col fixed left-0 top-0 bottom-0">
+      <aside className="w-64 bg-[#6b8e23] text-white flex flex-col fixed left-0 top-0 bottom-0">
         {/* Logo */}
         <div className="p-6 text-2xl font-semibold border-b border-[#1E1B4B]">
-          JohriWorksCMS
+          bunnaDirectCMS
         </div>
 
         {/* Navigation */}
@@ -80,14 +80,14 @@ export default function DashboardLayout({
                   href={href}
                   className={`group flex items-center px-4 py-2 rounded-md relative transition-all duration-200 ease-in-out ${
                     active
-                      ? "text-white before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[3px] before:bg-[#B88D3B]"
+                      ? "text-white before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[3px] before:bg-[#3d2b1f]"
                       : "text-white hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Icon className="h-5 w-5 text-white shrink-0" />
                     <span
-                      className={`relative text-sm after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:w-full after:bg-[#B88D3B] after:scale-x-0 after:transition-transform after:duration-300 after:origin-left group-hover:after:scale-x-100`}
+                      className={`relative text-sm after:absolute after:left-0 after:-bottom-[2px] after:h-[2px] after:w-full after:bg-[#3d2b1f] after:scale-x-0 after:transition-transform after:duration-300 after:origin-left group-hover:after:scale-x-100`}
                     >
                       {name}
                     </span>
@@ -101,7 +101,7 @@ export default function DashboardLayout({
         <div className="p-4 border-t border-[#1E1B4B]">
           <button
             onClick={handleLogout}
-            className="w-full py-2.5 rounded-md bg-[#0A0528] hover:bg-[#B88D3B] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             Logout
           </button>
