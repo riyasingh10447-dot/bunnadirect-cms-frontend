@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !authorized) router.push("/admin-login");
+    if (!loading && !authorized) router.push("/admin");
   }, [loading, authorized, router]);
 
   if (loading) return <p className="p-6">Loading...</p>;
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
             <div className="mt-4">
               <button
                 onClick={() => router.push("/article")}
-                className="inline-flex items-center gap-2 bg-[#6b8e23] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+                className="inline-flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
               >
                 Go to Articles
               </button>
@@ -45,7 +45,7 @@ export default function AdminDashboard() {
             <div className="mt-4">
               <button
                 onClick={() => router.push("/admin/add-user")}
-                className="inline-flex items-center gap-2 bg-[#6b8e23] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+                className="inline-flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
               >
                 Add User
               </button>
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
             <div className="mt-4">
               <button
                 onClick={() => router.push("/admin/users")}
-                className="inline-flex items-center gap-2 bg-[#6b8e23] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+                className="inline-flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
               >
                 View Users
               </button>
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
             <div className="mt-4">
               <button
                 onClick={() => router.push("/account")}
-                className="inline-flex items-center gap-2 bg-[#6b8e23] text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
+                className="inline-flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-md text-sm hover:opacity-95 transition"
               >
                 My Account
               </button>

@@ -65,7 +65,7 @@ export default function MyAccountPage() {
         <div className="mt-8">
           <button
             onClick={() => router.push("/change-password")}
-            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             Change Password
           </button>

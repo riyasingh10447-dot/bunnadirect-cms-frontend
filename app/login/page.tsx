@@ -75,22 +75,27 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#6b8e23] px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-[#0A0528]">bunnaDirectCMS</h1>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#0F172A]  px-4">
+  <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
+    
+    <div className="text-center mb-8 flex justify-center">
+      <img 
+        src="/logo.png" 
+        alt="Logo" 
+        className="h-20 w-auto object-contain"
+      />
+    </div>
 
-        {/* Error Message */}
-        {error && (
-          <div
-            className="mb-3 text-red-600 bg-red-100 px-3 py-2 rounded-md text-sm text-center"
-            role="alert"
-            aria-live="polite"
-          >
-            {error}
-          </div>
-        )}
+    {/* Error Message */}
+    {error && (
+      <div
+        className="mb-3 text-red-600 bg-red-100 px-3 py-2 rounded-md text-sm text-center"
+        role="alert"
+        aria-live="polite"
+      >
+        {error}
+      </div>
+    )}
 
         {/* Neutral guidance (always visible; doesn’t leak account existence) */}
         <p className="mb-4 text-xs text-gray-500 text-center">
@@ -114,7 +119,7 @@ export default function LoginPage() {
                 }}
                 required
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900 bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
                 autoComplete="username"
               />
             </div>
@@ -136,13 +141,13 @@ export default function LoginPage() {
                 }}
                 required
                 placeholder="********"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900 bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
                 autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#6b8e23]"
+                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-slate-900"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff /> : <Eye />}
@@ -154,7 +159,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] disabled:opacity-60 text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
@@ -163,7 +168,7 @@ export default function LoginPage() {
         <div className="mt-4 text-center">
           <button
             type="button"
-            className="text-sm text-[#3d2b1f] hover:text-[#6b8e23] hover:underline transition"
+            className="text-sm text-slate-900 hover:text-teal-600 hover:underline transition"
             onClick={() => router.push("/forgot-password")}
           >
             Forgot password?

@@ -48,7 +48,7 @@ export default function ArticleForm({ onSubmit }: ArticleFormProps) {
 
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-teal-600"
         disabled={loading}
       >
         {loading ? "Submitting..." : "Submit Article"}

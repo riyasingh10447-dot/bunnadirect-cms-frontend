@@ -14,7 +14,7 @@ export default function AddUserPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !authorized) router.push("/admin-login");
+    if (!loading && !authorized) router.push("/admin/add-user");
   }, [loading, authorized, router]);
 
   const handleAddUser = async (e: React.FormEvent) => {
@@ -113,7 +113,7 @@ export default function AddUserPage() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             Add User
           </button>

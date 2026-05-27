@@ -119,7 +119,7 @@ export default function ChangePasswordPage() {
                 <button
                   type="button"
                   onClick={() => setShowOld(!showOld)}
-                  className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#B88D3B]"
+                  className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-slate-900"
                 >
                   {showOld ? <EyeOff /> : <Eye />}
                 </button>
@@ -145,7 +145,7 @@ export default function ChangePasswordPage() {
               <button
                 type="button"
                 onClick={() => setShowNew(!showNew)}
-                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#B88D3B]"
+                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-slate-900"
               >
                 {showNew ? <EyeOff /> : <Eye />}
               </button>
@@ -170,7 +170,7 @@ export default function ChangePasswordPage() {
               <button
                 type="button"
                 onClick={() => setShowConfirm(!showConfirm)}
-                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-[#B88D3B]"
+                className="absolute right-3 inset-y-0 my-auto text-gray-400 hover:text-slate-900"
               >
                 {showConfirm ? <EyeOff /> : <Eye />}
               </button>
@@ -180,7 +180,7 @@ export default function ChangePasswordPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2.5 rounded-md bg-[#0A0528] hover:bg-[#B88D3B] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             {token ? "Reset Password" : "Update Password"}
           </button>

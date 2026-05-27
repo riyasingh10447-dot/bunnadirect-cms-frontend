@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#6b8e23] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#E8D9C5] px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10 border border-gray-100">
         {/* Header */}
         <div className="text-center mb-8">
@@ -58,7 +58,7 @@ export default function ForgotPasswordPage() {
           </div>
         )}
         {message && (
-          <div className="mb-4 text-green-600 bg-green-100 px-3 py-2 rounded-md text-sm text-center">
+          <div className="mb-4 text-red-600 bg-green-100 px-3 py-2 rounded-md text-sm text-center">
             {message}
           </div>
         )}
@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6b8e23] bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
+                className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600 bg-[#F2F6FB] text-[#0A0528] placeholder-gray-500"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2.5 rounded-md bg-[#3d2b1f] hover:bg-[#6b8e23] text-white font-semibold text-sm transition shadow-md border border-gray-300"
+            className="w-full py-2.5 rounded-md bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm transition shadow-md border border-gray-300"
           >
             Send Reset Link
           </button>
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="text-sm text-[#3d2b1f] hover:text-[#6b8e23] hover:underline transition"
+            className="text-sm text-slate-900 hover:text-teal-600 hover:underline transition"
           >
             Back to Sign In
           </button>

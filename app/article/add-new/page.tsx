@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic"; // ✅ MISSING IMPORT added here
+import dynamic from "next/dynamic";
 import DashboardLayout from "../../components/DashboardLayout";
 import useAuth from "../../hooks/useAuth";
 import "react-quill-new/dist/quill.snow.css";
@@ -11,7 +11,6 @@ import { Paperclip } from "lucide-react";
 // ✅ Dynamically import ReactQuill (no SSR)
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
-// ✅ Quill toolbar configuration
 const quillModules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
@@ -24,18 +23,7 @@ const quillModules = {
 };
 
 const quillFormats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "list",
-  "bullet",
-  "align",
-  "link",
-  "image",
-  "blockquote",
-  "code-block",
+  "header", "bold", "italic", "underline", "strike", "list", "bullet", "align", "link", "image", "blockquote", "code-block",
 ];
 
 interface UserInfo {
@@ -51,12 +39,13 @@ export default function AddArticlePage() {
   const [metaDescription, setMetaDescription] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [category, setCategory] = useState("GREEN_COFFEE_BENEFITS");
+  
+  // ✅ Correct Medical Initial State
+  const [category, setCategory] = useState("GENERAL_HEALTH");
   const [contentType, setContentType] = useState("ARTICLE");
   const [message, setMessage] = useState("");
   const router = useRouter();
 
-  // ✅ Fetch user info
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -74,28 +63,22 @@ export default function AddArticlePage() {
         router.push("/user-login");
       }
     };
-
     if (!loading && authorized) fetchUser();
   }, [loading, authorized, router]);
 
-  // ✅ Handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
-
     try {
       let imageUrl = "";
-
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
-
         const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
           method: "POST",
           credentials: "include",
           body: formData,
         });
-
         const uploadData = await uploadRes.json();
         imageUrl = uploadData.url;
       }
@@ -105,24 +88,14 @@ export default function AddArticlePage() {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          title,
-          metaKeyword,
-          metaDescription,
-          body,
-          imageUrl,
-          category,
-          contentType,
+          title, metaKeyword, metaDescription, body, imageUrl, category, contentType,
         }),
       });
 
       if (res.ok) {
         const article = await res.json();
         setMessage(`✅ Article created! View it at /blog/${article.slug}`);
-        setTitle("");
-        setMetaKeyword("");
-        setMetaDescription("");
-        setBody("");
-        setImage(null);
+        setTitle(""); setMetaKeyword(""); setMetaDescription(""); setBody(""); setImage(null);
       } else {
         const error = await res.json();
         setMessage(`❌ ${error.message || "Failed to create article"}`);
@@ -140,9 +113,7 @@ export default function AddArticlePage() {
   return (
     <DashboardLayout role={userInfo.role}>
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow border border-gray-100">
-        <h1 className="text-2xl font-semibold text-[#0A0528] mb-6">
-          Add New Article
-        </h1>
+        <h1 className="text-2xl font-semibold text-[#0A0528] mb-6">Add New Article</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Category */}
@@ -153,17 +124,21 @@ export default function AddArticlePage() {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full border p-2 rounded"
             >
-              <option value="GREEN_COFFEE_BENEFITS">Green Coffee Benefits</option>
-<option value="GREEN_COFFEE_TYPES">Types of Green Coffee Beans</option>
-<option value="GREEN_COFFEE_USAGE">How to Use Green Coffee</option>
-<option value="GREEN_COFFEE_WEIGHTLOSS">Green Coffee for Weight Loss</option>
-<option value="GREEN_COFFEE_HEALTH">Green Coffee for Health</option>
-<option value="GREEN_COFFEE_STORAGE">Green Coffee Storage & Care</option>
-
+              <option value="GENERAL_HEALTH">General Health & Wellness</option>
+              <option value="DISEASES_CONDITIONS">Diseases & Conditions</option>
+              <option value="MEDICINES_PHARMA">Medicines & Pharmacy</option>
+              <option value="LAB_TESTS">Lab Tests & Diagnostics</option>
+              <option value="SURGICAL_PROCEDURES">Surgical Procedures</option>
+              <option value="MENTAL_HEALTH">Mental Health & Psychology</option>
+              <option value="NUTRITION_DIET">Nutrition & Diet</option>
+              <option value="FITNESS_EXERCISE">Fitness & Exercise</option>
+              <option value="HEALTHCARE_TECHNOLOGY">Healthcare Technology</option>
+              <option value="AYURVEDA_HERBAL">Ayurveda & Herbal Medicine</option>
+              <option value="SKIN_HAIR_CARE">Skin & Hair Care</option>
+              <option value="MOTHER_CHILD_HEALTH">Mother & Child Care</option>
             </select>
           </div>
 
-          {/* Content Type */}
           <div>
             <label className="block font-semibold mb-1">Select Content Type</label>
             <select
@@ -176,96 +151,49 @@ export default function AddArticlePage() {
             </select>
           </div>
 
-          {/* Title */}
           <div>
             <label className="block font-semibold mb-1">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              className="w-full border p-2 rounded"
-            />
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required className="w-full border p-2 rounded" />
           </div>
 
-          {/* Meta Keyword */}
           <div>
             <label className="block font-semibold mb-1">Meta Keyword</label>
-            <input
-              type="text"
-              value={metaKeyword}
-              onChange={(e) => setMetaKeyword(e.target.value)}
-              className="w-full border p-2 rounded"
-            />
+            <input type="text" value={metaKeyword} onChange={(e) => setMetaKeyword(e.target.value)} className="w-full border p-2 rounded" />
           </div>
 
-          {/* Meta Description */}
           <div>
             <label className="block font-semibold mb-1">Meta Description</label>
-            <textarea
-              value={metaDescription}
-              onChange={(e) => setMetaDescription(e.target.value)}
-              className="w-full border p-2 rounded h-20"
-            />
+            <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} className="w-full border p-2 rounded h-20" />
           </div>
 
-          {/* ✅ Rich Text Editor */}
           <div>
             <label className="block font-semibold mb-1">Body</label>
-            <ReactQuill
-              theme="snow"
-              value={body}
-              onChange={setBody}
-              modules={quillModules}
-              formats={quillFormats}
-              className="bg-white h-60 mb-12"
-              placeholder="Write your article here..."
-            />
+            <ReactQuill theme="snow" value={body} onChange={setBody} modules={quillModules} formats={quillFormats} className="bg-white h-60 mb-12" />
           </div>
 
           <div className="mb-4">
-  <label className="block font-semibold mb-1">Upload Image</label>
+            <label className="block font-semibold mb-1">Upload Image</label>
+            <div className="flex items-center gap-3">
+              <label htmlFor="articleImage" className="cursor-pointer flex items-center gap-2 text-[#0A0528] transition hover:text-teal-600">
+                <Paperclip size={20} />
+                <span className="text-sm font-medium">Choose File</span>
+              </label>
+              <span className="text-sm text-gray-600">{image ? image.name : "No file selected"}</span>
+            </div>
+            <input id="articleImage" type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files ? setImage(e.target.files[0]) : null} />
+          </div>
 
-  <div className="flex items-center gap-3">
-    <label
-      htmlFor="articleImage"
-      className="cursor-pointer flex items-center gap-2 text-[#0A0528]  transition"
-    >
-      <Paperclip size={20} />
-      
-    </label>
-
-    <span className="text-sm text-gray-600">
-      {image ? image.name : "No file selected"}
-    </span>
-  </div>
-
-  <input
-    id="articleImage"
-    type="file"
-    accept="image/*"
-    className="hidden"
-    onChange={(e) =>
-      e.target.files ? setImage(e.target.files[0]) : null
-    }
-  />
-</div>
-
-          {/* Submit */}
+          {/* ✅ Small Button - w-full removed */}
           <button
             type="submit"
-            className="bg-[#3d2b1f] text-white px-4 py-2 rounded hover:bg-[#6b8e23] transition"
+            className="bg-teal-600 text-white px-8 py-2.5 rounded-lg font-semibold hover:bg-slate-900 transition-all shadow-sm"
           >
-            Add Article
+            Publish Article
           </button>
         </form>
 
         {message && (
-          <p
-            className={`mt-4 ${
-              message.startsWith("✅") ? "text-green-600" : "text-red-500"
-            }`}
-          >
+          <p className={`mt-4 p-3 rounded text-center font-medium ${message.startsWith("✅") ? "bg-green-50 text-green-600 border border-green-200" : "bg-red-50 text-red-500 border border-red-200"}`}>
             {message}
           </p>
         )}
@@ -273,176 +201,3 @@ export default function AddArticlePage() {
     </DashboardLayout>
   );
 }
-
-
- 
- {/*"use client";
-
-import { useState } from "react";
-
-export default function AdminPage() {
-  const [title, setTitle] = useState("");
-  const [metaKeyword, setMetaKeyword] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [body, setBody] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [category, setCategory] = useState("TRENDS_FASHION");
-  const [contentType, setContentType] = useState("ARTICLE");
-  const [message, setMessage] = useState("");
-
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  try {
-    let imageUrl = "";
-
-    if (image) {
-      const formData = new FormData();
-      formData.append("file", image);
-
-      const uploadRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
-        {
-          method: "POST",
-          credentials: "include", // ✅ important for auth
-          body: formData,
-        }
-      );
-
-      const uploadData = await uploadRes.json();
-      imageUrl = uploadData.url;
-    }
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/article`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // ✅ important for auth
-        body: JSON.stringify({
-          title,
-          metaKeyword,
-          metaDescription,
-          body,
-          imageUrl,
-          category,
-          contentType,
-        }),
-      }
-    );
-
-    if (res.ok) {
-      const article = await res.json();
-      setMessage(`Article created ✅ Link: /blog/${article.slug}`);
-      setTitle("");
-      setMetaKeyword("");
-      setMetaDescription("");
-      setBody("");
-      setImage(null);
-    } else {
-      const error = await res.json();
-      setMessage(`Error: ${error.message || "Failed to create article"}`);
-    }
-  } catch (err) {
-    console.error(err);
-    setMessage("Something went wrong.");
-  }
-};
-
-  return (
-    <div className="max-w-2xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">CMS Dashboard</h1>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-semibold">Select Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border p-2 rounded"
-          >
-            <option value="TRENDS_FASHION">Trends & Fashion</option>
-            <option value="TYPES_JEWELLERY">Types of Jewellery</option>
-            <option value="OCCASIONS_EVENTS">Occasions & Events</option>
-            <option value="BUYING_GUIDES_REVIEWS">Buying Guides & Reviews</option>
-            <option value="HISTORY_CULTURE">History & Culture</option>
-            <option value="CARE_MAINTENANCE">Care & Maintenance</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block font-semibold">Select Content Type</label>
-          <select
-            value={contentType}
-            onChange={(e) => setContentType(e.target.value)}
-            className="w-full border p-2 rounded"
-          >
-            <option value="ARTICLE">Article</option>
-            <option value="NEWS">News</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block font-semibold">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Meta Keyword</label>
-          <input
-            type="text"
-            value={metaKeyword}
-            onChange={(e) => setMetaKeyword(e.target.value)}
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Meta Description</label>
-          <textarea
-            value={metaDescription}
-            onChange={(e) => setMetaDescription(e.target.value)}
-            className="w-full border p-2 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Body</label>
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            required
-            className="w-full border p-2 rounded h-40"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Choose File for Image</label>
-          <input
-            type="file"
-            onChange={(e) =>
-              e.target.files ? setImage(e.target.files[0]) : null
-            }
-            className="w-full"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Add Article
-        </button>
-      </form>
-
-      {message && <p className="mt-4 text-green-600">{message}</p>}
-    </div>
-  );
-}
-*/}
